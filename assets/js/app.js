@@ -5,4 +5,4 @@ document.getElementById('pwInput').addEventListener('keyup', function (e) {
   if (e.key === 'Enter') checkPassword();
 });
 
-loadPasswordsForGate();
+restoreSession();

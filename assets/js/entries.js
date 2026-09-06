@@ -155,7 +155,8 @@ async function deleteEntry(i) {
   if (!confirm(`Are you sure you would like to delete the entry for "${name}"? This cannot be undone.`)) return;
   const pw = prompt('Enter the delete password to confirm:');
   if (pw === null) return;
-  if (pw !== DELETE_PASSWORD) {
+  const check = await apiVerifyDeletePassword(pw);
+  if (!check.success) {
     alert('Incorrect password. Entry was not deleted.');
     return;
   }

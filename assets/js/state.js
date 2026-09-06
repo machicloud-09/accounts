@@ -1,9 +1,7 @@
 // state.js — shared state, loaded first so every other module can use it.
+// Passwords are verified server-side (api/login.php, api/passwords.php,
+// api/verify-delete.php) — the client never holds their values.
 
-let ADMIN_PASSWORD = "admin123";   // default; overridden by saved value once loaded
-let VIEW_PASSWORD = "view123";     // default; overridden by saved value once loaded
-let DELETE_PASSWORD = "delete123"; // default; overridden by saved value once loaded
-let passwordsLoaded = false;
 let selectedRole = null;
 
 let currentRole = null;

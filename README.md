@@ -64,21 +64,17 @@ that way — it needs to go through a real HTTP server.
    and `data/passwords.json` (with the defaults below) the first time
    they're requested.
 
-## Default passwords (change these immediately)
-
-| Purpose | Default |
-|---|---|
-| Admin login | `admin123` |
-| View Only login | `view123` |
-| Delete / Import confirmation | `delete123` |
-
-Change them from inside the app: **Admin → 🔑 Change Password**. This
-writes straight to `data/passwords.json` — no code editing, no redeploy.
 
 ## Security notes (read before exposing this publicly)
 
-- Passwords are stored in **plain text** JSON on the server. This is fine
-  for a small private/internal deployment but is not strong security.
+- Access to `api/data.php` and `api/passwords.php` is gated server-side by
+  a PHP session (`api/auth.php`, set by `api/login.php`) — hitting those
+  URLs directly without first logging in now returns HTTP 401 instead of
+  the ledger contents. This requires cookies/sessions to work, so the
+  server needs write access to PHP's session save path
+  (`session_save_path()` / `sys_get_temp_dir()`).
+- Passwords are still stored in **plain text** JSON on the server. This is
+  fine for a small private/internal deployment but is not strong security.
   Ideally keep `data/` outside the public web root, or block direct HTTP
   access to `/data/` and `/seed/` via your server config (e.g. an Apache
   `<Directory>` deny rule or an nginx `location` block), since PHP only

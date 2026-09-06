@@ -15,11 +15,6 @@ async function changePassword() {
   const next = document.getElementById('pw_new').value;
   const confirmPw = document.getElementById('pw_confirm').value;
 
-  const currentCorrect = which === 'admin' ? ADMIN_PASSWORD : which === 'view' ? VIEW_PASSWORD : DELETE_PASSWORD;
-  if (current !== currentCorrect) {
-    alert('Current password is incorrect.');
-    return;
-  }
   if (!next || next.length < 4) {
     alert('New password must be at least 4 characters.');
     return;
@@ -29,16 +24,12 @@ async function changePassword() {
     return;
   }
 
-  if (which === 'admin') ADMIN_PASSWORD = next;
-  else if (which === 'view') VIEW_PASSWORD = next;
-  else DELETE_PASSWORD = next;
-
   try {
-    await apiSavePasswords({
-      adminPassword: ADMIN_PASSWORD,
-      viewPassword: VIEW_PASSWORD,
-      deletePassword: DELETE_PASSWORD
-    });
+    const result = await apiChangePassword(which, current, next);
+    if (!result.success) {
+      alert(result.error || 'Current password is incorrect.');
+      return;
+    }
     alert('Password updated successfully.');
     backToMenu();
   } catch (e) {

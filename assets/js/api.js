@@ -16,18 +16,39 @@ async function apiSaveEntries(entriesArr) {
   return res.json();
 }
 
-async function apiGetPasswords() {
-  const res = await fetch('api/passwords.php', { cache: 'no-store' });
-  if (!res.ok) throw new Error('Failed to load passwords');
+async function apiLogin(role, password) {
+  const res = await fetch('api/login.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ role, password })
+  });
   return res.json();
 }
 
-async function apiSavePasswords(obj) {
+async function apiLogout() {
+  const res = await fetch('api/logout.php', { method: 'POST' });
+  return res.json();
+}
+
+async function apiGetSession() {
+  const res = await fetch('api/session.php', { cache: 'no-store' });
+  return res.json();
+}
+
+async function apiVerifyDeletePassword(password) {
+  const res = await fetch('api/verify-delete.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password })
+  });
+  return res.json();
+}
+
+async function apiChangePassword(which, currentPassword, newPassword) {
   const res = await fetch('api/passwords.php', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(obj)
+    body: JSON.stringify({ which, currentPassword, newPassword })
   });
-  if (!res.ok) throw new Error('Failed to save passwords');
   return res.json();
 }

@@ -68,7 +68,9 @@ function importBackup(event) {
       return;
     }
     const pw = prompt('Enter the delete password to confirm this import (it overwrites existing data):');
-    if (pw !== DELETE_PASSWORD) {
+    if (pw === null) { event.target.value = ''; return; }
+    const check = await apiVerifyDeletePassword(pw);
+    if (!check.success) {
       alert('Incorrect password. Import cancelled.');
       event.target.value = '';
       return;

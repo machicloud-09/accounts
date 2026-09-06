@@ -1,18 +1,19 @@
 // gate.js — password-protected role selection screen.
+// Login is verified server-side (api/login.php); the session cookie it sets
+// is what actually gates api/data.php and api/passwords.php.
 
-async function loadPasswordsForGate() {
+async function restoreSession() {
   try {
-    const saved = await apiGetPasswords();
-    if (saved.adminPassword) ADMIN_PASSWORD = saved.adminPassword;
-    if (saved.viewPassword) VIEW_PASSWORD = saved.viewPassword;
-    if (saved.deletePassword) DELETE_PASSWORD = saved.deletePassword;
+    const { role } = await apiGetSession();
+    if (role) {
+      enterAs(role);
+      return;
+    }
   } catch (e) {
-    console.error('Could not load saved passwords, using defaults', e);
+    console.error('Could not check session', e);
   }
-  passwordsLoaded = true;
   document.getElementById('pwInput').disabled = false;
   document.querySelector('#gate .go').disabled = false;
-  document.getElementById('gateError').textContent = '';
 }
 
 function selectRole(role) {
@@ -22,19 +23,19 @@ function selectRole(role) {
   document.getElementById('gateError').textContent = '';
 }
 
-function checkPassword() {
-  if (!passwordsLoaded) {
-    document.getElementById('gateError').textContent = 'Still loading — try again in a moment.';
-    return;
-  }
+async function checkPassword() {
   const input = document.getElementById('pwInput').value;
   const error = document.getElementById('gateError');
   if (!selectedRole) { error.textContent = 'Choose Admin or View Only first.'; return; }
-  const correct = selectedRole === 'admin' ? ADMIN_PASSWORD : VIEW_PASSWORD;
-  if (input === correct) {
-    enterAs(selectedRole);
-  } else {
-    error.textContent = 'Incorrect password. Try again.';
+  try {
+    const result = await apiLogin(selectedRole, input);
+    if (result.success) {
+      enterAs(result.role);
+    } else {
+      error.textContent = 'Incorrect password. Try again.';
+    }
+  } catch (e) {
+    error.textContent = 'Could not reach the server. Try again.';
   }
 }
 
@@ -53,7 +54,8 @@ function enterAs(role) {
   init();
 }
 
-function logout() {
+async function logout() {
+  try { await apiLogout(); } catch (e) { console.error(e); }
   currentRole = null;
   selectedRole = null;
   document.body.classList.remove('role-view');

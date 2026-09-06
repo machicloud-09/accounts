@@ -2,6 +2,7 @@
 // api/data.php — GET returns the current entries; POST overwrites them.
 // Data lives in /data/entries.json, which is gitignored so `git pull`
 // never touches live data or produces merge conflicts.
+require __DIR__ . '/auth.php';
 
 header('Content-Type: application/json');
 
@@ -14,6 +15,7 @@ if (!is_dir($dataDir)) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    requireRole(['admin', 'view']);
     if (!file_exists($dataFile)) {
         // First run on this server: seed from the versioned template.
         if (file_exists($seedFile)) {
@@ -27,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    requireRole(['admin']);
     $input = file_get_contents('php://input');
     $decoded = json_decode($input, true);
 
