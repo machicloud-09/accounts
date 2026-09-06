@@ -89,22 +89,22 @@ function render() {
     else if (!isCleared && pendingMonths >= 9) tr.classList.add('row-warn');
 
     tr.innerHTML = `
-      <td class="col-dateGiven">${e.dateGiven}</td>
-      <td class="col-name">${e.name}</td>
+      <td class="col-dateGiven">${escapeHtml(e.dateGiven)}</td>
+      <td class="col-name">${escapeHtml(e.name)}</td>
       <td class="num col-principal">${fmt(e.principal)}</td>
-      <td class="col-rate">${e.rate}%</td>
+      <td class="col-rate">${escapeHtml(e.rate)}%</td>
       <td class="num col-interest">${fmt(c.interest)}</td>
       <td class="num col-totalDue">${fmt(c.totalDue)}</td>
-      <td class="col-dueDate">${isCleared ? '—' : e.dueDate}</td>
+      <td class="col-dueDate">${isCleared ? '—' : escapeHtml(e.dueDate)}</td>
       <td class="num col-months">${c.months.toFixed(2)}</td>
-      <td class="col-status ${statusClass(e.status)}">${e.status || ''}</td>
-      <td class="col-clearedDate">${isCleared ? (e.clearedDate || '—') : '—'}</td>
+      <td class="col-status ${statusClass(e.status)}">${escapeHtml(e.status || '')}</td>
+      <td class="col-clearedDate">${isCleared ? escapeHtml(e.clearedDate || '—') : '—'}</td>
       <td class="num col-totalPaidAmount">${isCleared ? fmt(totalPaidAmount) : '—'}</td>
       <td class="num col-interestPaid">${fmt(interestPaidShown)}</td>
       <td class="num col-pending">${fmt(pending)}</td>
       <td class="num col-pendingMonths">${pendingMonths.toFixed(1)}</td>
-      <td class="col-contact">${e.contact || '—'}</td>
-      <td class="comment col-comments">${e.comments || ''}</td>
+      <td class="col-contact">${escapeHtml(e.contact || '—')}</td>
+      <td class="comment col-comments">${escapeHtml(e.comments || '')}</td>
       <td class="col-actions">${
         currentRole === 'admin'
           ? `<button class="btn-edit" onclick="editEntry(${i})">Edit</button>${(!isCleared && pending > 0) ? `<button class="btn-remind" onclick="sendReminder(${i})">Remind</button>` : ''}<button class="btn-danger" onclick="deleteEntry(${i})">Delete</button>`
@@ -138,16 +138,16 @@ function renderCards(rows) {
 
     const rowsHtml = [
       ['Principal', `₹${fmt(e.principal)}`],
-      !isView ? ['Rate', `${e.rate}%`] : null,
+      !isView ? ['Rate', `${escapeHtml(e.rate)}%`] : null,
       !isView ? ['Interest', `₹${fmt(c.interest)}`] : null,
       !isView ? ['Total Due', `₹${fmt(c.totalDue)}`] : null,
-      !isCleared ? ['Due Date', e.dueDate] : null,
+      !isCleared ? ['Due Date', escapeHtml(e.dueDate)] : null,
       !isView ? ['Months', c.months.toFixed(2)] : null,
       ['Interest Pending', `₹${fmt(pending)}`],
       ['Pending Months', pendingMonths.toFixed(1)],
       !isView ? ['Interest Paid', `₹${fmt(interestPaidShown)}`] : null,
-      e.contact ? ['Contact', e.contact] : null,
-      e.comments ? ['Remarks / Comments', e.comments] : null,
+      e.contact ? ['Contact', escapeHtml(e.contact)] : null,
+      e.comments ? ['Remarks / Comments', escapeHtml(e.comments)] : null,
     ].filter(Boolean);
 
     const canRemind = !isCleared && pending > 0;
@@ -164,10 +164,10 @@ function renderCards(rows) {
     return `
       <div class="entry-card ${cardClass}">
         <div class="card-top">
-          <span class="card-name">${e.name}</span>
-          <span class="card-status ${statusClass(e.status)}">${e.status || ''}</span>
+          <span class="card-name">${escapeHtml(e.name)}</span>
+          <span class="card-status ${statusClass(e.status)}">${escapeHtml(e.status || '')}</span>
         </div>
-        <div style="font-size:11px;color:#9ca3af;margin-bottom:6px;">Given: ${e.dateGiven}</div>
+        <div style="font-size:11px;color:#9ca3af;margin-bottom:6px;">Given: ${escapeHtml(e.dateGiven)}</div>
         ${rowsHtml.map(([k, v]) => `<div class="card-row"><span class="k">${k}</span><span>${v}</span></div>`).join('')}
         ${actions}
       </div>`;
@@ -194,7 +194,7 @@ function renderChart(totPrincipal, totInterest, totPaid, totPending) {
       paidMonths = Math.max(0, Math.min(paidMonths, c.months));
       const pendingMonths = Math.max(c.months - paidMonths, 0);
       return {
-        label: `${e.name} (${e.dateGiven})`,
+        label: `${escapeHtml(e.name)} (${escapeHtml(e.dateGiven)})`,
         totalMonths: c.months,
         paidMonths,
         pendingMonths,

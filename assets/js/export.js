@@ -12,7 +12,10 @@ function exportCSV() {
     ];
   });
   const escapeCsv = v => {
-    const s = String(v);
+    let s = String(v);
+    // Neutralize formula injection: a cell starting with =, +, -, or @ can
+    // be interpreted as a formula by Excel/Sheets when the CSV is opened.
+    if (/^[=+\-@]/.test(s)) s = `'${s}`;
     return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
   };
   const csv = [headers, ...rows].map(r => r.map(escapeCsv).join(',')).join('\n');

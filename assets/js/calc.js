@@ -44,6 +44,17 @@ function statusClass(s) {
   return '';
 }
 
+// Entries are rendered via innerHTML for table/card layout, and the
+// backend never validates their field types/content — so any string field
+// (name, comments, contact, dates, status, rate) must be escaped before
+// being interpolated into HTML, or a saved/imported entry could inject a
+// script that runs in every viewer's authenticated session.
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, ch => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[ch]));
+}
+
 function cleanPhoneForWhatsApp(raw) {
   let digits = (raw || '').replace(/[^\d]/g, '');
   if (!digits) return null;

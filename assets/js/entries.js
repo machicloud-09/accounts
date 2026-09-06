@@ -101,7 +101,7 @@ function showModifyList() {
   entries.forEach((e, i) => {
     const row = document.createElement('div');
     row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:8px;border:1px solid #e5e7eb;border-radius:6px;';
-    row.innerHTML = `<span>${e.name} <span style="color:#6b7280;font-size:12px;">(${e.dateGiven}, ₹${fmt(e.principal)})</span></span>
+    row.innerHTML = `<span>${escapeHtml(e.name)} <span style="color:#6b7280;font-size:12px;">(${escapeHtml(e.dateGiven)}, ₹${fmt(e.principal)})</span></span>
       <span><button class="btn-edit" onclick="editEntry(${i})">Edit</button><button class="btn-danger" onclick="deleteEntry(${i})">Delete</button></span>`;
     list.appendChild(row);
   });
