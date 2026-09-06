@@ -203,9 +203,10 @@ tr.row-danger:hover { background: #fee2e2 !important; }
 tr.row-warn { background: #fffbeb !important; }
 tr.row-warn:hover { background: #fef3c7 !important; }
 
-/* Total Paid Amount is still computed and kept in exports/backups —
-   just not shown in the table for any role. */
-.col-totalPaidAmount {
+/* Total Paid Amount and Cleared Date are still stored/computed and kept
+   in exports/backups — just not shown in the table for any role. */
+.col-totalPaidAmount,
+.col-clearedDate {
   display: none;
 }
 
@@ -215,7 +216,6 @@ body.role-view .col-interest,
 body.role-view .col-totalDue,
 body.role-view .col-dueDate,
 body.role-view .col-months,
-body.role-view .col-clearedDate,
 body.role-view .col-interestPaid,
 body.role-view .col-comments {
   display: none;

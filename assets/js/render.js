@@ -141,7 +141,7 @@ function renderCards(rows) {
       !isView ? ['Rate', `${e.rate}%`] : null,
       !isView ? ['Interest', `₹${fmt(c.interest)}`] : null,
       !isView ? ['Total Due', `₹${fmt(c.totalDue)}`] : null,
-      !isCleared ? ['Due Date', e.dueDate] : ['Cleared On', e.clearedDate || '—'],
+      !isCleared ? ['Due Date', e.dueDate] : null,
       !isView ? ['Months', c.months.toFixed(2)] : null,
       ['Interest Pending', `₹${fmt(pending)}`],
       ['Pending Months', pendingMonths.toFixed(1)],
