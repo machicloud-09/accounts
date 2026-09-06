@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BFS - Bheemasena Financial Services | Lending Ledger</title>
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<div id="gate">
+  <div class="logo-badge" style="width:60px;height:60px;font-size:20px;margin-bottom:14px;">BFS</div>
+  <div style="color:#fff;font-weight:700;font-size:16px;margin-bottom:2px;">Bheemasena Financial Services</div>
+  <h2 style="margin-top:4px;">🔒 Lending Ledger Access</h2>
+  <div class="role-buttons">
+    <button id="roleAdminBtn" onclick="selectRole('admin')">Admin</button>
+    <button id="roleViewBtn" onclick="selectRole('view')">View Only</button>
+  </div>
+  <input type="password" id="pwInput" placeholder="Password" disabled>
+  <br>
+  <button class="go" onclick="checkPassword()" disabled>Enter</button>
+  <div id="gateError"></div>
+</div>
+
+<div id="app">
+  <header>
+    <div class="brand">
+      <div class="logo-badge">BFS</div>
+      <div class="brand-text">
+        <span class="brand-name">Bheemasena Financial Services</span>
+        <span class="brand-sub">Lending Ledger</span>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <span class="tag" id="roleTag"></span>
+      <button onclick="logout()">Log out</button>
+    </div>
+  </header>
+  <div class="wrap">
+
+    <div class="card" id="adminMenuCard" style="display:none;">
+      <h3>What would you like to do?</h3>
+      <div class="form-actions" style="margin-top:0; flex-wrap:wrap;">
+        <button class="btn-primary" onclick="showAddForm()">➕ Add New Entry</button>
+        <button class="btn-secondary" onclick="showModifyList()">✏️ Modify Existing Entry</button>
+        <button class="btn-secondary" onclick="showChangePassword()">🔑 Change Password</button>
+      </div>
+    </div>
+
+    <div class="card" id="changePasswordCard" style="display:none;">
+      <h3>Change Password</h3>
+      <div class="form-grid">
+        <div><label>Which Password?</label>
+          <select id="pw_which">
+            <option value="admin">Admin Login Password</option>
+            <option value="view">View Only Login Password</option>
+            <option value="delete">Delete/Import Password</option>
+          </select>
+        </div>
+        <div><label>Current Password</label><input type="password" id="pw_current"></div>
+        <div><label>New Password</label><input type="password" id="pw_new"></div>
+        <div><label>Confirm New Password</label><input type="password" id="pw_confirm"></div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-primary" onclick="changePassword()">Save New Password</button>
+        <button class="btn-secondary" onclick="backToMenu()">Cancel</button>
+      </div>
+    </div>
+
+    <div class="card" id="adminFormCard" style="display:none;">
+      <h3 id="formTitle">Add New Entry</h3>
+      <p id="formHint" style="font-size:12px;color:#6b7280;margin-top:-8px;">Only Date Given and Person Name are required — everything else can be filled in later.</p>
+      <div class="form-grid">
+        <div><label>Date Given <span style="color:#dc2626;">*</span></label><input type="date" id="f_dateGiven"></div>
+        <div><label>Person Name <span style="color:#dc2626;">*</span></label><input type="text" id="f_name" placeholder="e.g. Girish"></div>
+        <div><label>Principal (₹)</label><input type="number" id="f_principal" placeholder="100000" onchange="autoFillOneYearInterest()"></div>
+        <div><label>Interest Rate (% per month)</label><input type="number" id="f_rate" value="2" step="0.1" onchange="autoFillOneYearInterest()"></div>
+        <div><label>Due / As-of Date</label><input type="date" id="f_dueDate"></div>
+        <div><label>Status</label>
+          <select id="f_status" onchange="onStatusChange()">
+            <option value="Pending">Pending</option>
+            <option value="1 Year">1 Year</option>
+            <option value="Cleared">Cleared</option>
+          </select>
+        </div>
+        <div id="clearedDateField" style="display:none;"><label>Cleared Date</label><input type="date" id="f_clearedDate"></div>
+        <div id="interestPaidField"><label>Interest Paid (₹)</label><input type="number" id="f_interestPaid" value="0"></div>
+        <div><label>Contact Number</label><input type="tel" id="f_contact" placeholder="e.g. 9876543210"></div>
+        <div><label>Additional Comments</label><input type="text" id="f_comments" placeholder="optional"></div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-primary" onclick="saveEntry()">Save Entry</button>
+        <button class="btn-secondary" onclick="backToMenu()">Cancel</button>
+      </div>
+    </div>
+
+    <div class="card" id="modifyListCard" style="display:none;">
+      <h3>Select an entry to modify</h3>
+      <div id="modifyList" style="display:flex; flex-direction:column; gap:6px; max-height:320px; overflow-y:auto;"></div>
+      <div class="form-actions">
+        <button class="btn-secondary" onclick="backToMenu()">Back</button>
+      </div>
+    </div>
+
+    <div id="loadingMsg">Loading ledger…</div>
+    <div class="toolbar" id="toolbar" style="display:none;">
+      <input type="text" id="searchBox" placeholder="Search by name…" oninput="render()">
+      <select id="statusFilter" onchange="render()">
+        <option value="">All Statuses</option>
+        <option value="Pending">Pending</option>
+        <option value="1 Year">1 Year</option>
+        <option value="Cleared">Cleared</option>
+      </select>
+      <select id="sortSelect" onchange="applySortFromDropdown()">
+        <option value="">Sort by…</option>
+        <option value="dateGiven">Date Given</option>
+        <option value="name">Person Name</option>
+        <option value="principal">Principal</option>
+        <option value="pending">Interest Pending</option>
+        <option value="pendingMonths">Pending Months</option>
+        <option value="status">Status</option>
+      </select>
+      <button class="btn-export" id="sortDirBtn" onclick="toggleSortDirection()" style="display:none;">▲ Asc</button>
+      <span id="adminToolbarActions" style="display:none;">
+        <button class="btn-export" onclick="exportCSV()">⬇ Export CSV</button>
+        <button class="btn-export" onclick="exportBackup()">⬇ Backup (JSON)</button>
+        <button class="btn-export" onclick="document.getElementById('importFile').click()">⬆ Import Backup</button>
+        <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importBackup(event)">
+      </span>
+    </div>
+    <div class="table-wrap" id="tableWrap" style="display:none;">
+      <table>
+        <thead>
+          <tr>
+            <th class="sortable col-dateGiven" data-sort="dateGiven">Date Given<span class="sort-arrow"></span></th>
+            <th class="sortable col-name" data-sort="name">Person Name<span class="sort-arrow"></span></th>
+            <th class="num sortable col-principal" data-sort="principal">Principal (₹)<span class="sort-arrow"></span></th>
+            <th class="col-rate">Rate</th>
+            <th class="num sortable col-interest" data-sort="interest">Interest Amount<span class="sort-arrow"></span></th>
+            <th class="num sortable col-totalDue" data-sort="totalDue">Total Due<span class="sort-arrow"></span></th>
+            <th class="col-dueDate">Due Date</th>
+            <th class="num sortable col-months" data-sort="months">Months<span class="sort-arrow"></span></th>
+            <th class="sortable col-status" data-sort="status">Status<span class="sort-arrow"></span></th>
+            <th class="col-clearedDate">Cleared Date</th>
+            <th class="num col-totalPaidAmount">Total Paid Amount (₹)</th>
+            <th class="num sortable col-interestPaid" data-sort="interestPaid">Interest Paid (₹)<span class="sort-arrow"></span></th>
+            <th class="num sortable col-pending" data-sort="pending">Interest Pending (₹)<span class="sort-arrow"></span></th>
+            <th class="num sortable col-pendingMonths" data-sort="pendingMonths">Pending Months<span class="sort-arrow"></span></th>
+            <th class="col-contact">Contact</th>
+            <th class="col-comments">Comments</th>
+            <th id="actionsHeader" class="col-actions" style="display:none;">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2">Totals</td>
+            <td class="num col-principal" id="totPrincipal"></td>
+            <td class="col-rate"></td>
+            <td class="num col-interest" id="totInterest"></td>
+            <td class="num col-totalDue" id="totDue"></td>
+            <td class="col-dueDate"></td>
+            <td class="col-months"></td>
+            <td class="col-status"></td>
+            <td class="col-clearedDate"></td>
+            <td class="num col-totalPaidAmount" id="totClearedAmount"></td>
+            <td class="num col-interestPaid" id="totPaid"></td>
+            <td class="num col-pending" id="totPending"></td>
+            <td class="num col-pendingMonths" id="totPendingMonths"></td>
+            <td class="col-contact"></td><td class="col-comments"></td><td class="col-actions" id="actionsFootSpacer" style="display:none;"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="card-list" id="cardWrap"></div>
+
+    <div class="card" id="chartCard" style="display:none;">
+      <h3>Summary</h3>
+      <div id="statCards" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap:12px; margin-bottom:20px;"></div>
+      <div id="chartContainer" style="overflow-x:auto;"></div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/state.js" defer></script>
+<script src="assets/js/api.js" defer></script>
+<script src="assets/js/calc.js" defer></script>
+<script src="assets/js/gate.js" defer></script>
+<script src="assets/js/render.js" defer></script>
+<script src="assets/js/entries.js" defer></script>
+<script src="assets/js/passwords.js" defer></script>
+<script src="assets/js/export.js" defer></script>
+<script src="assets/js/app.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+[
+  {"dateGiven":"2026-07-06","name":"Girish","principal":100000,"rate":2,"dueDate":"2026-08-15","status":"Pending","interestPaid":0,"contact":"+91 9398991296","comments":""},
+  {"dateGiven":"2026-05-03","name":"Mahathmanna s/o Midhinti Palayya","principal":100000,"rate":2,"dueDate":"2026-08-15","status":"Pending","interestPaid":0,"contact":"+91 9398991296","comments":""},
+  {"dateGiven":"2026-04-23","name":"Jollyappa gari Manthesh","principal":100000,"rate":2,"dueDate":"2026-08-15","status":"Pending","interestPaid":0,"contact":"+91 9398991296","comments":""},
+  {"dateGiven":"2026-04-18","name":"Gowda S/O Matam kariyanna","principal":60000,"rate":2,"dueDate":"2026-08-15","status":"Pending","interestPaid":0,"contact":"+91 9398991296","comments":"Nethra 50 + Me 10"},
+  {"dateGiven":"2026-04-10","name":"Pallayya gari Palayya","principal":100000,"rate":2,"dueDate":"2026-08-15","status":"Pending","interestPaid":0,"contact":"+91 9398991296","comments":""},
+  {"dateGiven":"2026-04-07","name":"Shankar- Chinna Nanjappa","principal":100000,"rate":2,"dueDate":"2026-08-15","status":"Pending","interestPaid":0,"contact":"+91 9398991296","comments":""},
+  {"dateGiven":"2026-03-24","name":"Sivanna","principal":100000,"rate":2,"dueDate":"2026-08-15","status":"Pending","interestPaid":0,"contact":"+91 9398991296","comments":""},
+  {"dateGiven":"2026-01-25","name":"Palayya gari manthesh","principal":100000,"rate":2,"dueDate":"2026-08-15","status":"Pending","interestPaid":0,"contact":"+91 9398991296","comments":""},
+  {"dateGiven":"2025-11-24","name":"Katteppa","principal":50000,"rate":2,"dueDate":"2026-08-15","status":"Pending","interestPaid":0,"contact":"+91 9398991296","comments":""},
+  {"dateGiven":"2025-11-20","name":"Venkatappa","principal":50000,"rate":2,"dueDate":"2026-08-15","status":"Pending","interestPaid":0,"contact":"+91 9398991296","comments":""},
+  {"dateGiven":"2025-10-22","name":"Katteppa","principal":50000,"rate":2,"dueDate":"2026-08-15","status":"Pending","interestPaid":0,"contact":"+91 9398991296","comments":""},
+  {"dateGiven":"2025-07-10","name":"Venkatappa","principal":100000,"rate":2,"dueDate":"2026-08-15","status":"Pending","interestPaid":0,"contact":"+91 9398991296","comments":""},
+  {"dateGiven":"2025-06-16","name":"Manju (Shanti nagar)","principal":50000,"rate":2,"dueDate":"2026-08-15","status":"Cleared","interestPaid":14000,"clearedDate":"2026-08-01","contact":"+91 9398991296","comments":""},
+  {"dateGiven":"2025-05-01","name":"Nagaraju","principal":50000,"rate":2,"dueDate":"2026-08-15","status":"1 Year","interestPaid":12000,"contact":"+91 9398991296","comments":"Nethra 30 + Me 20"},
+  {"dateGiven":"2025-04-22","name":"Bheemajja","principal":100000,"rate":2,"dueDate":"2026-08-15","status":"1 Year","interestPaid":24000,"contact":"+91 9398991296","comments":""},
+  {"dateGiven":"2025-01-19","name":"J siva Shankar","principal":50000,"rate":2,"dueDate":"2026-08-15","status":"1 Year","interestPaid":12000,"contact":"+91 9398991296","comments":""},
+  {"dateGiven":"2026-05-12","name":"Kambala Gangappa","principal":80000,"rate":2,"dueDate":"2026-08-15","status":"Pending","interestPaid":0,"contact":"+91 9398991296","comments":""},
+  {"dateGiven":"2026-01-19","name":"Anjineyulu (Jinna)","principal":20000,"rate":2,"dueDate":"2026-08-15","status":"Pending","interestPaid":0,"contact":"+91 9398991296","comments":""},
+  {"dateGiven":"2026-01-12","name":"Neelesh","principal":5000,"rate":2,"dueDate":"2026-08-15","status":"Pending","interestPaid":0,"contact":"+91 9398991296","comments":""}
+]
