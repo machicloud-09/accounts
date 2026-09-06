@@ -104,11 +104,6 @@
     </div>
 
     <div id="loadingMsg">Loading ledger…</div>
-    <div class="card" id="chartCard" style="display:none;">
-      <h3>Summary</h3>
-      <div id="statCards" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap:12px; margin-bottom:20px;"></div>
-      <div id="chartContainer" style="overflow-x:auto;"></div>
-    </div>
     <div class="toolbar" id="toolbar" style="display:none;">
       <input type="text" id="searchBox" placeholder="Search by name…" oninput="render()">
       <select id="statusFilter" onchange="render()">
@@ -180,6 +175,12 @@
     </div>
 
     <div class="card-list" id="cardWrap"></div>
+
+    <div class="card" id="chartCard" style="display:none;">
+      <h3>Summary</h3>
+      <div id="statCards" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap:14px; margin-bottom:20px;"></div>
+      <div id="chartContainer" style="overflow-x:auto;"></div>
+    </div>
   </div>
 </div>
 

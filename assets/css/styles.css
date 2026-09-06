@@ -160,15 +160,27 @@ tfoot td { font-weight: 700; background: #eef2ff; padding: 10px 8px; border-top:
 #loadingMsg { padding: 20px; color: #6b7280; font-size: 13px; }
 
 .stat-card {
-  background: #f9fafb;
+  background: #fff;
   border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 12px 14px;
+  border-left: 4px solid #9ca3af;
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
-.stat-card .label { font-size: 12px; color: #6b7280; margin-bottom: 4px; }
-.stat-card .value { font-size: 18px; font-weight: 700; color: #1f2937; }
-.stat-card.pending .value { color: #dc2626; }
+.stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.stat-card .icon { font-size: 24px; line-height: 1; }
+.stat-card .label { font-size: 12px; color: #6b7280; margin-bottom: 3px; }
+.stat-card .value { font-size: 20px; font-weight: 700; color: #1f2937; }
+.stat-card.principal { border-left-color: #4f46e5; }
+.stat-card.interest { border-left-color: #7c3aed; }
+.stat-card.paid { border-left-color: #059669; }
 .stat-card.paid .value { color: #059669; }
+.stat-card.pending { border-left-color: #dc2626; }
+.stat-card.pending .value { color: #dc2626; }
 
 .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; min-width: 600px; }
 .bar-label { width: 180px; font-size: 12px; color: #374151; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -246,7 +258,8 @@ body.role-view tbody td { white-space: normal; word-break: break-word; }
   .toolbar input[type="text"] { flex: 1; width: auto; }
 
   #statCards { grid-template-columns: repeat(2, 1fr) !important; }
-  .stat-card { padding: 10px; }
+  .stat-card { padding: 10px; gap: 8px; }
+  .stat-card .icon { font-size: 18px; }
   .stat-card .value { font-size: 15px; }
 
   .chart-legend { flex-wrap: wrap; gap: 8px 14px; font-size: 11px; }
