@@ -30,4 +30,5 @@ if (!hash_equals((string)$stored[$fieldByRole[$role]], $password)) {
 
 session_regenerate_id(true);
 $_SESSION['role'] = $role;
-echo json_encode(['success' => true, 'role' => $role]);
+$_SESSION['lastActivity'] = time();
+echo json_encode(['success' => true, 'role' => $role, 'expiresIn' => SESSION_TIMEOUT_SECONDS]);

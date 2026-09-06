@@ -4,9 +4,9 @@
 
 async function restoreSession() {
   try {
-    const { role } = await apiGetSession();
+    const { role, expiresIn } = await apiGetSession();
     if (role) {
-      enterAs(role);
+      enterAs(role, expiresIn);
       return;
     }
   } catch (e) {
@@ -30,7 +30,7 @@ async function checkPassword() {
   try {
     const result = await apiLogin(selectedRole, input);
     if (result.success) {
-      enterAs(result.role);
+      enterAs(result.role, result.expiresIn);
     } else {
       error.textContent = 'Incorrect password. Try again.';
     }
@@ -39,7 +39,7 @@ async function checkPassword() {
   }
 }
 
-function enterAs(role) {
+function enterAs(role, expiresIn) {
   currentRole = role;
   document.getElementById('gate').style.display = 'none';
   document.getElementById('app').style.display = 'block';
@@ -51,10 +51,12 @@ function enterAs(role) {
     document.getElementById('adminMenuCard').style.display = 'block';
     document.getElementById('adminToolbarActions').style.display = 'inline-flex';
   }
+  startSessionTimer(expiresIn);
   init();
 }
 
 async function logout() {
+  stopSessionTimer();
   try { await apiLogout(); } catch (e) { console.error(e); }
   currentRole = null;
   selectedRole = null;
@@ -63,6 +65,7 @@ async function logout() {
   document.getElementById('roleViewBtn').classList.remove('active');
   document.getElementById('pwInput').value = '';
   document.getElementById('gateError').textContent = '';
+  document.getElementById('sessionTimer').textContent = '';
   document.getElementById('app').style.display = 'none';
   document.getElementById('gate').style.display = 'flex';
 }

@@ -4,4 +4,4 @@
 require __DIR__ . '/auth.php';
 header('Content-Type: application/json');
 
-echo json_encode(['role' => currentRole()]);
+echo json_encode(['role' => currentRole(), 'expiresIn' => sessionExpiresIn()]);
