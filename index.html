@@ -87,7 +87,7 @@
         <div id="clearedDateField" style="display:none;"><label>Cleared Date</label><input type="date" id="f_clearedDate"></div>
         <div id="interestPaidField"><label>Interest Paid (₹)</label><input type="number" id="f_interestPaid" value="0"></div>
         <div><label>Contact Number</label><input type="tel" id="f_contact" placeholder="e.g. 9876543210"></div>
-        <div><label>Additional Comments</label><input type="text" id="f_comments" placeholder="optional"></div>
+        <div style="grid-column:1/-1;"><label>Remarks / Comments</label><textarea id="f_comments" rows="2" placeholder="optional"></textarea></div>
       </div>
       <div class="form-actions">
         <button class="btn-primary" onclick="saveEntry()">Save Entry</button>
@@ -104,6 +104,11 @@
     </div>
 
     <div id="loadingMsg">Loading ledger…</div>
+    <div class="card" id="chartCard" style="display:none;">
+      <h3>Summary</h3>
+      <div id="statCards" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap:12px; margin-bottom:20px;"></div>
+      <div id="chartContainer" style="overflow-x:auto;"></div>
+    </div>
     <div class="toolbar" id="toolbar" style="display:none;">
       <input type="text" id="searchBox" placeholder="Search by name…" oninput="render()">
       <select id="statusFilter" onchange="render()">
@@ -148,7 +153,7 @@
             <th class="num sortable col-pending" data-sort="pending">Interest Pending (₹)<span class="sort-arrow"></span></th>
             <th class="num sortable col-pendingMonths" data-sort="pendingMonths">Pending Months<span class="sort-arrow"></span></th>
             <th class="col-contact">Contact</th>
-            <th class="col-comments">Comments</th>
+            <th class="col-comments">Remarks / Comments</th>
             <th id="actionsHeader" class="col-actions" style="display:none;">Actions</th>
           </tr>
         </thead>
@@ -175,12 +180,6 @@
     </div>
 
     <div class="card-list" id="cardWrap"></div>
-
-    <div class="card" id="chartCard" style="display:none;">
-      <h3>Summary</h3>
-      <div id="statCards" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap:12px; margin-bottom:20px;"></div>
-      <div id="chartContainer" style="overflow-x:auto;"></div>
-    </div>
   </div>
 </div>
 

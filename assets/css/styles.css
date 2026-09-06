@@ -109,12 +109,14 @@ header button:hover { background: #374151; }
   display: block;
   margin-bottom: 4px;
 }
-.form-grid input, .form-grid select {
+.form-grid input, .form-grid select, .form-grid textarea {
   width: 100%;
   padding: 8px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
   font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
 }
 .form-actions { margin-top: 14px; display: flex; gap: 10px; }
 .btn-primary {
@@ -201,6 +203,12 @@ tr.row-danger:hover { background: #fee2e2 !important; }
 tr.row-warn { background: #fffbeb !important; }
 tr.row-warn:hover { background: #fef3c7 !important; }
 
+/* Total Paid Amount is still computed and kept in exports/backups —
+   just not shown in the table for any role. */
+.col-totalPaidAmount {
+  display: none;
+}
+
 /* View Only sees just the essentials: Date, Name, Principal, Status, Pending */
 body.role-view .col-rate,
 body.role-view .col-interest,
@@ -208,7 +216,6 @@ body.role-view .col-totalDue,
 body.role-view .col-dueDate,
 body.role-view .col-months,
 body.role-view .col-clearedDate,
-body.role-view .col-totalPaidAmount,
 body.role-view .col-interestPaid,
 body.role-view .col-comments {
   display: none;

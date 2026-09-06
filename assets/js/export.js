@@ -1,7 +1,7 @@
 // export.js — CSV export, JSON backup export/import (Admin only).
 
 function exportCSV() {
-  const headers = ['Date Given', 'Person Name', 'Principal', 'Rate %', 'Interest Amount', 'Total Due', 'Due Date', 'Months', 'Status', 'Cleared Date', 'Total Paid Amount', 'Interest Paid', 'Interest Pending', 'Pending Months', 'Contact', 'Comments'];
+  const headers = ['Date Given', 'Person Name', 'Principal', 'Rate %', 'Interest Amount', 'Total Due', 'Due Date', 'Months', 'Status', 'Cleared Date', 'Total Paid Amount', 'Interest Paid', 'Interest Pending', 'Pending Months', 'Contact', 'Remarks / Comments'];
   const rows = entries.map(e => {
     const b = loanBreakdown(e);
     return [

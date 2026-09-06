@@ -131,7 +131,7 @@ function renderCards(rows) {
   const isView = currentRole !== 'admin';
 
   wrap.innerHTML = rows.map(({ e, i, b }) => {
-    const { isCleared, c, pending, interestPaidShown, totalPaidAmount, pendingMonths } = b;
+    const { isCleared, c, pending, interestPaidShown, pendingMonths } = b;
     let cardClass = '';
     if (!isCleared && pendingMonths > 12) cardClass = 'card-danger';
     else if (!isCleared && pendingMonths >= 9) cardClass = 'card-warn';
@@ -146,9 +146,8 @@ function renderCards(rows) {
       ['Interest Pending', `₹${fmt(pending)}`],
       ['Pending Months', pendingMonths.toFixed(1)],
       !isView ? ['Interest Paid', `₹${fmt(interestPaidShown)}`] : null,
-      (!isView && isCleared) ? ['Total Paid', `₹${fmt(totalPaidAmount)}`] : null,
       e.contact ? ['Contact', e.contact] : null,
-      e.comments ? ['Comments', e.comments] : null,
+      e.comments ? ['Remarks / Comments', e.comments] : null,
     ].filter(Boolean);
 
     const canRemind = !isCleared && pending > 0;
