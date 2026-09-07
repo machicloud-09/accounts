@@ -68,8 +68,7 @@ function toggleClearedDate() {
   const isCleared = document.getElementById('f_status').value === 'Cleared';
   document.getElementById('clearedDateField').style.display = isCleared ? 'block' : 'none';
   if (isCleared && !document.getElementById('f_clearedDate').value) {
-    const dueVal = document.getElementById('f_dueDate').value;
-    document.getElementById('f_clearedDate').value = dueVal || todayStr();
+    document.getElementById('f_clearedDate').value = todayStr();
   }
 }
 
@@ -84,7 +83,6 @@ function showAddForm() {
   document.getElementById('f_name').value = '';
   document.getElementById('f_principal').value = '';
   document.getElementById('f_rate').value = 2;
-  document.getElementById('f_dueDate').value = todayStr();
   document.getElementById('f_status').value = 'Pending';
   document.getElementById('f_interestPaid').value = 0;
   document.getElementById('f_clearedDate').value = '';
@@ -124,7 +122,6 @@ function editEntry(i) {
   document.getElementById('f_name').value = e.name;
   document.getElementById('f_principal').value = e.principal;
   document.getElementById('f_rate').value = e.rate;
-  document.getElementById('f_dueDate').value = e.dueDate;
   document.getElementById('f_status').value = e.status || '';
   document.getElementById('f_interestPaid').value = e.interestPaid || 0;
   document.getElementById('f_clearedDate').value = e.clearedDate || '';
@@ -173,7 +170,6 @@ async function saveEntry() {
   const name = document.getElementById('f_name').value.trim();
   const principal = parseFloat(document.getElementById('f_principal').value);
   const rate = parseFloat(document.getElementById('f_rate').value);
-  const dueDate = document.getElementById('f_dueDate').value;
   const status = document.getElementById('f_status').value;
   const interestPaid = parseFloat(document.getElementById('f_interestPaid').value) || 0;
   const clearedDate = document.getElementById('f_clearedDate').value;
@@ -187,11 +183,6 @@ async function saveEntry() {
 
   if (!isNaN(principal) && principal < 0) {
     alert('Principal cannot be negative.');
-    return;
-  }
-
-  if (dueDate && dueDate < dateGiven) {
-    alert('Due Date cannot be earlier than Date Given. Please check the dates.');
     return;
   }
 
@@ -213,7 +204,6 @@ async function saveEntry() {
     name,
     principal: principal || 0,
     rate: rate || 2,
-    dueDate: dueDate || todayStr(),
     status: status || 'Pending',
     interestPaid,
     clearedDate: status === 'Cleared' ? clearedDate : '',

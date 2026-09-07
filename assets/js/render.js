@@ -95,7 +95,6 @@ function render() {
       <td class="col-rate">${escapeHtml(e.rate)}%</td>
       <td class="num col-interest">${fmt(c.interest)}</td>
       <td class="num col-totalDue">${fmt(c.totalDue)}</td>
-      <td class="col-dueDate">${isCleared ? '—' : escapeHtml(e.dueDate)}</td>
       <td class="num col-months">${c.months.toFixed(2)}</td>
       <td class="col-status ${statusClass(e.status)}">${escapeHtml(e.status || '')}</td>
       <td class="col-clearedDate">${isCleared ? escapeHtml(e.clearedDate || '—') : '—'}</td>
@@ -141,7 +140,6 @@ function renderCards(rows) {
       !isView ? ['Rate', `${escapeHtml(e.rate)}%`] : null,
       !isView ? ['Interest', `₹${fmt(c.interest)}`] : null,
       !isView ? ['Total Due', `₹${fmt(c.totalDue)}`] : null,
-      !isCleared ? ['Due Date', escapeHtml(e.dueDate)] : null,
       !isView ? ['Months', c.months.toFixed(2)] : null,
       ['Interest Pending', `₹${fmt(pending)}`],
       ['Pending Months', pendingMonths.toFixed(1)],

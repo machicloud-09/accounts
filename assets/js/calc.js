@@ -12,7 +12,10 @@ function monthsBetween(d1, d2) {
 }
 
 function calc(entry) {
-  const months = monthsBetween(entry.dateGiven, entry.dueDate);
+  // "As of" date: frozen at clearedDate once a loan is Cleared, otherwise
+  // always today — interest keeps accruing live, no due date to maintain.
+  const asOfDate = (entry.status === 'Cleared' && entry.clearedDate) ? entry.clearedDate : todayStr();
+  const months = monthsBetween(entry.dateGiven, asOfDate);
   const interest = entry.principal * (entry.rate / 100) * months;
   const totalDue = entry.principal + interest;
   const pending = Math.max(interest - (entry.interestPaid || 0), 0);
