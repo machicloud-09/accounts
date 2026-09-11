@@ -1,0 +1,5 @@
+# Block direct access to dotfiles/dot-directories anywhere under this site
+# (.git/, .DS_Store, .gitignore, etc.) — the deploy instructions in README.md
+# have people `git clone` straight into the web root, which otherwise makes
+# the entire git history (and any junk files) downloadable over HTTP.
+RedirectMatch 404 "(^|/)\."

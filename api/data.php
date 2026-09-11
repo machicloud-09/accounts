@@ -32,8 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     requireRole(['admin']);
     $input = file_get_contents('php://input');
     $decoded = json_decode($input, true);
+    // json_decode(..., true) turns BOTH JSON arrays and JSON objects into a
+    // PHP array, so is_array() alone accepts objects like {"a":1} too —
+    // require sequential integer keys (a real JSON array) specifically.
+    $isJsonArray = is_array($decoded)
+        && ($decoded === [] || array_keys($decoded) === range(0, count($decoded) - 1));
 
-    if (!is_array($decoded)) {
+    if (!$isJsonArray) {
         http_response_code(400);
         echo json_encode(['error' => 'Expected a JSON array of entries']);
         exit;

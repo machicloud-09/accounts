@@ -1,0 +1,9 @@
+# Block all direct HTTP access to this folder (seed-data.json contains real
+# borrower names/phone numbers used as the first-run template).
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>
