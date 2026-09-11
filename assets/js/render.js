@@ -182,6 +182,7 @@ function renderChart(totPrincipal, totInterest, totPaid, totPending) {
     <div class="stat-card interest"><span class="icon">📈</span><div><div class="label">Total Interest Accrued</div><div class="value">₹${fmt(totInterest)}</div></div></div>
     <div class="stat-card paid"><span class="icon">✅</span><div><div class="label">Total Interest Paid</div><div class="value">₹${fmt(totPaid)}</div></div></div>
     <div class="stat-card pending"><span class="icon">⏳</span><div><div class="label">Total Interest Pending</div><div class="value">₹${fmt(totPending)}</div></div></div>
+    <div class="stat-card due"><span class="icon">🧾</span><div><div class="label">Total Due (Principal + Pending)</div><div class="value">₹${fmt(totPrincipal + totPending)}</div></div></div>
   `;
 
   // One bar per loan (all non-cleared entries), broken into months paid vs months pending
