@@ -16,23 +16,23 @@ async function changePassword() {
   const confirmPw = document.getElementById('pw_confirm').value;
 
   if (!next || next.length < 4) {
-    alert('New password must be at least 4 characters.');
+    showToast('New password must be at least 4 characters.', 'error');
     return;
   }
   if (next !== confirmPw) {
-    alert('New password and confirmation do not match.');
+    showToast('New password and confirmation do not match.', 'error');
     return;
   }
 
   try {
     const result = await apiChangePassword(which, current, next);
     if (!result.success) {
-      alert(result.error || 'Current password is incorrect.');
+      showToast(result.error || 'Current password is incorrect.', 'error');
       return;
     }
-    alert('Password updated successfully.');
+    showToast('Password updated successfully.', 'success');
     backToMenu();
   } catch (e) {
-    alert('Could not save the new password — please try again.');
+    showToast('Could not save the new password — please try again.', 'error');
   }
 }

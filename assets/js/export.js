@@ -54,27 +54,28 @@ function importBackup(event) {
       imported = JSON.parse(reader.result);
       if (!Array.isArray(imported)) throw new Error('Not an array');
     } catch (err) {
-      alert('That file doesn\'t look like a valid backup (expected JSON array of entries).');
+      showToast('That file doesn\'t look like a valid backup (expected JSON array of entries).', 'error');
       event.target.value = '';
       return;
     }
 
     const validEntries = imported.filter(e => e && e.dateGiven && e.name);
     if (validEntries.length === 0) {
-      alert('No valid entries found in that file.');
+      showToast('No valid entries found in that file.', 'error');
       event.target.value = '';
       return;
     }
 
-    if (!confirm(`This will REPLACE all ${entries.length} current entries with ${validEntries.length} entries from the backup file. This cannot be undone. Continue?`)) {
+    const proceed = await showConfirm(`This will REPLACE all ${entries.length} current entries with ${validEntries.length} entries from the backup file. This cannot be undone. Continue?`, { confirmLabel: 'Replace', danger: true });
+    if (!proceed) {
       event.target.value = '';
       return;
     }
-    const pw = prompt('Enter the delete password to confirm this import (it overwrites existing data):');
+    const pw = await showPrompt('Enter the delete password to confirm this import (it overwrites existing data):', { inputType: 'password', confirmLabel: 'Import', danger: true });
     if (pw === null) { event.target.value = ''; return; }
     const check = await apiVerifyDeletePassword(pw);
     if (!check.success) {
-      alert('Incorrect password. Import cancelled.');
+      showToast('Incorrect password. Import cancelled.', 'error');
       event.target.value = '';
       return;
     }
@@ -83,7 +84,7 @@ function importBackup(event) {
     await persist();
     render();
     event.target.value = '';
-    alert(`Import complete — ${validEntries.length} entries loaded.`);
+    showToast(`Import complete — ${validEntries.length} entries loaded.`, 'success');
   };
   reader.readAsText(file);
 }

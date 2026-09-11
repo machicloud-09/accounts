@@ -6,7 +6,7 @@ async function init() {
   } catch (e) {
     console.error(e);
     entries = [];
-    alert('Could not load ledger data from the server. Check that api/data.php is reachable and the data/ folder is writable.');
+    showToast('Could not load ledger data from the server. Check that api/data.php is reachable and the data/ folder is writable.', 'error');
   }
   document.getElementById('loadingMsg').style.display = 'none';
   document.getElementById('toolbar').style.display = 'flex';
@@ -33,7 +33,7 @@ async function persist() {
     await apiSaveEntries(entries);
   } catch (e) {
     console.error('Save error', e);
-    alert('Could not save — please try again.');
+    showToast('Could not save — please try again.', 'error');
   }
 }
 
@@ -135,7 +135,7 @@ function sendReminder(i) {
   const e = entries[i];
   const phone = cleanPhoneForWhatsApp(e.contact);
   if (!phone) {
-    alert(`No contact number saved for ${e.name}. Add one via Edit first.`);
+    showToast(`No contact number saved for ${e.name}. Add one via Edit first.`, 'error');
     return;
   }
   const b = loanBreakdown(e);
@@ -149,17 +149,19 @@ function sendReminder(i) {
 
 async function deleteEntry(i) {
   const name = entries[i].name;
-  if (!confirm(`Are you sure you would like to delete the entry for "${name}"? This cannot be undone.`)) return;
-  const pw = prompt('Enter the delete password to confirm:');
+  const confirmed = await showConfirm(`Are you sure you would like to delete the entry for "${name}"? This cannot be undone.`, { confirmLabel: 'Delete', danger: true });
+  if (!confirmed) return;
+  const pw = await showPrompt('Enter the delete password to confirm:', { inputType: 'password', confirmLabel: 'Delete', danger: true });
   if (pw === null) return;
   const check = await apiVerifyDeletePassword(pw);
   if (!check.success) {
-    alert('Incorrect password. Entry was not deleted.');
+    showToast('Incorrect password. Entry was not deleted.', 'error');
     return;
   }
   entries.splice(i, 1);
   await persist();
   render();
+  showToast(`Deleted entry for "${name}".`, 'success');
   if (document.getElementById('modifyListCard').style.display !== 'none') {
     showModifyList();
   }
@@ -177,12 +179,12 @@ async function saveEntry() {
   const comments = document.getElementById('f_comments').value.trim();
 
   if (!dateGiven || !name) {
-    alert('Please fill in Date Given and Person Name.');
+    showToast('Please fill in Date Given and Person Name.', 'error');
     return;
   }
 
   if (!isNaN(principal) && principal < 0) {
-    alert('Principal cannot be negative.');
+    showToast('Principal cannot be negative.', 'error');
     return;
   }
 
@@ -192,11 +194,13 @@ async function saveEntry() {
     existing.dateGiven === dateGiven
   );
   if (isDuplicate) {
-    if (!confirm(`An entry for "${name}" on ${dateGiven} already exists. Add this anyway?`)) return;
+    const proceed = await showConfirm(`An entry for "${name}" on ${dateGiven} already exists. Add this anyway?`);
+    if (!proceed) return;
   }
 
   if (editIndex !== null) {
-    if (!confirm(`Are you sure you would like to modify the entry for "${name}"?`)) return;
+    const proceed = await showConfirm(`Are you sure you would like to modify the entry for "${name}"?`);
+    if (!proceed) return;
   }
 
   const entry = {
@@ -211,12 +215,14 @@ async function saveEntry() {
     comments
   };
 
-  if (editIndex !== null) {
+  const wasEdit = editIndex !== null;
+  if (wasEdit) {
     entries[editIndex] = entry;
   } else {
     entries.push(entry);
   }
   await persist();
   render();
+  showToast(wasEdit ? `Updated entry for "${name}".` : `Added entry for "${name}".`, 'success');
   backToMenu();
 }
