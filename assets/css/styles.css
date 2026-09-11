@@ -182,13 +182,6 @@ tfoot td { font-weight: 700; background: #eef2ff; padding: 10px 8px; border-top:
 .stat-card.pending { border-left-color: #dc2626; }
 .stat-card.pending .value { color: #dc2626; }
 
-.pi-compare-header { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; color: #374151; margin-bottom: 6px; }
-.pi-compare-header span:first-child { font-weight: 600; }
-.pi-compare-pct { font-size: 17px; font-weight: 700; color: #dc2626; }
-.pi-compare-track { background: #e5e7eb; border-radius: 6px; height: 14px; overflow: hidden; }
-.pi-compare-fill { height: 100%; background: linear-gradient(90deg, #f59e0b, #dc2626); border-radius: 6px; transition: width 0.3s ease; }
-.pi-compare-labels { display: flex; justify-content: space-between; font-size: 11px; color: #6b7280; margin-top: 4px; }
-
 .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; min-width: 600px; }
 .bar-label { width: 180px; font-size: 12px; color: #374151; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .bar-track { flex: 1; background: #e5e7eb; border-radius: 4px; height: 18px; position: relative; overflow: hidden; }

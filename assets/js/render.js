@@ -184,25 +184,6 @@ function renderChart(totPrincipal, totInterest, totPaid, totPending) {
     <div class="stat-card pending"><span class="icon">⏳</span><div><div class="label">Total Interest Pending</div><div class="value">₹${fmt(totPending)}</div></div></div>
   `;
 
-  // Interest Pending as a share of Total Principal Out
-  const compare = document.getElementById('principalPendingCompare');
-  const comparePct = totPrincipal > 0 ? Math.min((totPending / totPrincipal) * 100, 100) : 0;
-  compare.innerHTML = `
-    <div class="pi-compare">
-      <div class="pi-compare-header">
-        <span>Interest Pending vs Total Principal Out</span>
-        <span class="pi-compare-pct">${comparePct.toFixed(1)}%</span>
-      </div>
-      <div class="pi-compare-track">
-        <div class="pi-compare-fill" style="width:${comparePct}%"></div>
-      </div>
-      <div class="pi-compare-labels">
-        <span>₹${fmt(totPending)} pending</span>
-        <span>₹${fmt(totPrincipal)} principal out</span>
-      </div>
-    </div>
-  `;
-
   // One bar per loan (all non-cleared entries), broken into months paid vs months pending
   const loans = entries
     .filter(e => e.status !== 'Cleared')
