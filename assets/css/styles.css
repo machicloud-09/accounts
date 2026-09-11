@@ -226,6 +226,7 @@ tr.row-warn:hover { background: #fef3c7 !important; }
 body.role-view .col-rate,
 body.role-view .col-interest,
 body.role-view .col-totalDue,
+body.role-view .col-dueDate,
 body.role-view .col-months,
 body.role-view .col-interestPaid,
 body.role-view .col-comments {

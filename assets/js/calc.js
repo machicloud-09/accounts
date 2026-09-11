@@ -19,7 +19,7 @@ function calc(entry) {
   const interest = entry.principal * (entry.rate / 100) * months;
   const totalDue = entry.principal + interest;
   const pending = Math.max(interest - (entry.interestPaid || 0), 0);
-  return { months, interest, totalDue, pending };
+  return { months, interest, totalDue, pending, asOfDate };
 }
 
 // Shared breakdown used by both the table and the chart
